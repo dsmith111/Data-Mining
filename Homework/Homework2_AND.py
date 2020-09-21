@@ -115,7 +115,7 @@ def find_mismatch(y, logic_array_target, logic_array_guess,random_guess):
 
 # This is a reduced version of the pocket algorithm. It continuously cycles the weight values producing increasingly accurate...
 # values until it is able to correctly separate the nodes. It does not take into account the amount of error. 
-def pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, y, time):
+def pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, y):
     count = 0
     pocket_w = w
     random_guess = False
@@ -166,7 +166,7 @@ print("Weights: {}\n".format(w))
 
 x_list = truth_table(output)
 [x, g] = activation_function(w, x_list[0], x_list[1], x_list[2])
-w = pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, output, time)
+w = pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, output)
 
 print("Finalized Weights: {}\n".format(w))
 
