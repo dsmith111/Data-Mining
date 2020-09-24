@@ -150,12 +150,12 @@ def error_check(w, g, test_w, test_g, logic_array_guess, logic_array_target, lr)
         lr -= 0.01
         if lr<=0:
             lr = 0.1        
-        return [test_w, test_g, False, lr]
+        return [test_w, test_g, False, lr, sum(error_test), sum(error_test)]
     else:
         lr += 0.01 
         if lr>1:
             lr = 0.1
-        return [w, g, True, lr]
+        return [w, g, True, lr, None, sum(error_test)]
         
         
 # This is a reduced version of the pocket algorithm. It continuously cycles the weight values producing increasingly accurate...
@@ -186,8 +186,9 @@ def pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, y):
         sign = temp[1]
         test_w = alter_weights(learning_rate, test_w, x, truth_table_index, sign)
         test_g = activation_function(test_w, x_list[0], x_list[1], x_list[2])[1]
-        [pocket_w, g, random_guess, learning_rate] = error_check(pocket_w, g, test_w, test_g, logic_array_pocket, logic_array_target, learning_rate)
-        
+        [pocket_w, g, random_guess, learning_rate, error_temp, error_current] = error_check(pocket_w, g, test_w, test_g, logic_array_pocket, logic_array_target, learning_rate)
+        if error_temp != None:
+            error_pocket = error_temp
         
         
         if count >= 10000:
@@ -199,7 +200,8 @@ def pocket_algorithm(w, g, logic_array_target, learning_rate, x, x_list, y):
     pocket_w = test_w    
     print("Learning Rate: {}".format(learning_rate))    
     print("Iterations: {}\n".format(count))   
-    print(g)
+    print("New Activation Array: {}\n".format(g))
+    print("Pocket Error: {}\nPLA Error w/out Pocket: {}\n".format(error_pocket,error_current))
     return pocket_w
 
 
