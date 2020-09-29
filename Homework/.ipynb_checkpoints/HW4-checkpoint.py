@@ -37,23 +37,21 @@ y9 = np.dot(a9,w9)
 
 # Taylor series values for coefficients of a power series approx.
 # f(x) = f(x)(x-c)^0 + f'(x)(x-c) + f''(x)(x-c)^2/2
-taylor_series = []
+maclaurin_series = []
 
 for i in range(10):
     
     negative_component = (-1)**i
     top_component = (x*2*np.pi)**((2*i)+1)
     bottom_component = math.factorial((2*i) + 1)
-    #print("top: {}".format(top_component))
-    #print("\nbottom: {}\n".format(bottom_component))
-    taylor_series.append(negative_component*(top_component/bottom_component))
+    maclaurin_series.append(negative_component*(top_component/bottom_component))
 
-taylor_series = sum(taylor_series)
+maclaurin_series = sum(maclaurin_series)
 
 
 # Line Fitting Plot
-print("Taylor Series: \n{}\n".format(taylor_series))
-plt.plot(x, taylor_series, 'cyan', label = "Taylor Series Sine Approx")
+print("Maclaurin Series: \n{}\n".format(maclaurin_series))
+plt.plot(x, maclaurin_series, 'cyan', label = "Maclaurin Series Sine Approx")
 
 print("\n3rd Order Weight Coefficients: \n{}".format(y))
 plt.plot(x, y, 'b', label = "Weight-Based Line 3rd Order")
@@ -68,11 +66,11 @@ plt.show()
 # Error Plot
 plt.figure(1)
 
-t_error = np.abs((b-taylor_series)/(taylor_series+0.00000001))
+m_error = np.abs((b-maclaurin_series)/(maclaurin_series+0.00000001))
 w_error = np.abs((b - y)/y)
 w9_error = np.abs((b - y9)/y9)
 plt.title("Error Comparison")
-plt.plot(x, t_error, "cyan", label = "Taylor Series Error")
+plt.plot(x, m_error, "cyan", label = "Maclaurin Series Error")
 plt.plot(x, w_error, "blue", label = "Weight 3rd Order Error")
 plt.plot(x, w9_error, "r-.", label = "Weight 9th Order Error")
 plt.legend()
@@ -91,13 +89,13 @@ b = b.T
 plt.figure(0)
 plt.plot(x,b,'go', label = "Plotted Sine Points")
 
-# Fitting a third order polynomial line to the sine function
+# Fitting a zero order polynomial line to the sine function
 a0 = np.zeros([11,1])
 a0[:,0] = 1
 w0 = np.dot(np.linalg.inv(np.dot(a0.T,a0)),np.dot(a0.T,b))
 y0 = np.dot(a0,w0)
 
-# Fitting a ninth order polynomial line to the sine function
+# Fitting a first order polynomial line to the sine function
 a1 = np.zeros([11,2])
 a1[:,0] = 1
 a1[:,1] = x
