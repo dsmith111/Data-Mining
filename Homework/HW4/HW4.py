@@ -40,7 +40,7 @@ y9 = np.dot(a9,w9)
 maclaurin_series = []
 
 for i in range(10):
-    
+
     negative_component = (-1)**i
     top_component = (x*2*np.pi)**((2*i)+1)
     bottom_component = math.factorial((2*i) + 1)
