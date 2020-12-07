@@ -87,7 +87,30 @@ class DataProcessing():
         if inner_tree.children_left[index] != TREE_LEAF:
             DataProcessing.prune_index(inner_tree, inner_tree.children_left[index], threshold)
             DataProcessing.prune_index(inner_tree, inner_tree.children_right[index], threshold)
+            
+    def sigmoid(z):
+        sig = 1/(1+np.exp(-z))
+        return sig
 
+    def predict(w, A):
+        z = np.dot(A, w)
+        print(z)
+        return DataProcessing.sigmoid(z)
+
+    def design_matrix(order, x):
+
+        A= np.zeros([len(x), order])
+        for i in range(order):
+            A[:,i] = np.power(x,i)
+
+        return A
+
+    def pseudo_inverse(x, b, order):
+        order += 1
+        A = DataProcessing.design_matrix(order, x)
+        w = np.dot(np.linalg.inv(np.dot(A.T,A)),np.dot(A.T,b))
+        y = np.dot(A, w)
+        return (w, y, A)
 
 
         
